@@ -1,4 +1,4 @@
-package ru.nsu.ccfit.haskov;
+package ru.nsu.ccfit.haskov.solverTrimomial;
 
 public enum Sign {
     POSITIVE,

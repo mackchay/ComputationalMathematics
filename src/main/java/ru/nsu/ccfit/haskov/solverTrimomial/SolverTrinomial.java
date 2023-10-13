@@ -1,4 +1,6 @@
-package ru.nsu.ccfit.haskov;
+package ru.nsu.ccfit.haskov.solverTrimomial;
+
+import ru.nsu.ccfit.haskov.solverTrimomial.Sign;
 
 import java.util.*;
 
@@ -27,12 +29,18 @@ public class SolverTrinomial {
         Double d = 2 * a * 2 * a - 4 * 3 * b;
         if (d <= 0) {
             if (Math.abs(trinomialFunc((double) 0)) < epsilon) {
-                roots.add((double)0);
+                roots.add((double) 0);
+                roots.add((double) 0);
+                roots.add((double) 0);
             }
             if (trinomialFunc((double) 0) > epsilon) {
                 roots.add(infLineSearch((double)0, Sign.NEGATIVE));
+                roots.add(infLineSearch((double)0, Sign.NEGATIVE));
+                roots.add(infLineSearch((double)0, Sign.NEGATIVE));
             }
             if (trinomialFunc((double) 0) < -epsilon) {
+                roots.add(infLineSearch((double)0, Sign.POSITIVE));
+                roots.add(infLineSearch((double)0, Sign.POSITIVE));
                 roots.add(infLineSearch((double)0, Sign.POSITIVE));
             }
         }
@@ -51,9 +59,11 @@ public class SolverTrinomial {
             }
             if (trinomialFunc(alfa) > epsilon && Math.abs(trinomialFunc(beta)) < epsilon) {
                 roots.add(beta);
+                roots.add(beta);
                 roots.add(infLineSearch(alfa, Sign.NEGATIVE));
             }
             if (Math.abs(trinomialFunc(alfa)) < epsilon && trinomialFunc(beta) < -epsilon) {
+                roots.add(alfa);
                 roots.add(alfa);
                 roots.add(infLineSearch(beta, Sign.POSITIVE));
             }
@@ -74,8 +84,7 @@ public class SolverTrinomial {
         return 3*x*x + 2*a*x + b;
     }
 
-    private Double trinomialFunc(Double x) {
-        Double res = x*x*x + a*x*x + b*x + c;
+    public Double trinomialFunc(Double x) {
         return x*x*x + a*x*x + b*x + c;
     }
 

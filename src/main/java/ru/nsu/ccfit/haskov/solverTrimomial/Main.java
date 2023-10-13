@@ -1,4 +1,4 @@
-package ru.nsu.ccfit.haskov;
+package ru.nsu.ccfit.haskov.solverTrimomial;
 
 import java.util.List;
 
@@ -8,12 +8,13 @@ public class Main {
                 (double) 0,
                 (double) 0,
                 (double) 0,
-                0.00005,
+                0.00001,
                 1000.0
         );
         List<Double> list = solver.start();
         System.out.println(list);
-        System.out.println(list.size());
-        System.out.println("Hello world!");
+//        for (Double i: list) {
+//            System.out.print("Fun results: " + solver.trinomialFunc(i) + " ");
+//        }
     }
 }
