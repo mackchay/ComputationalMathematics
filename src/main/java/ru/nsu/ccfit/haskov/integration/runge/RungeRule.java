@@ -6,7 +6,7 @@ import ru.nsu.ccfit.haskov.integration.simpson.SimpsonIntegration;
 import ru.nsu.ccfit.haskov.integration.trapezoid.TrapezoidIntegration;
 
 public class RungeRule {
-    private static final int SEGMENTS = 800;
+    private static final int SEGMENTS = 300;
     public static void main(String[] args) {
         Integration trapezoid = new TrapezoidIntegration();
         Integration simpson = new SimpsonIntegration();
@@ -18,8 +18,14 @@ public class RungeRule {
 
     public static double getOrderOfAccuracy(Integration integration) {
         double s1 = integration.start(SEGMENTS);
-        double s2 = integration.start(SEGMENTS / 2);
-        double s3 = integration.start(SEGMENTS / 4);
-        return Math.log(Math.abs(s1 - s2) / Math.abs(s2 - s3)) / Math.log(2);
+        double s2 = integration.start(SEGMENTS * 2);
+        double s3 = integration.start(SEGMENTS * 4);
+        System.out.println(s1);
+        System.out.println(s2);
+        System.out.println(s3);
+        System.out.println(s1 - s2);
+        System.out.println(s2 - s3);
+        System.out.println((s1 - s2) / (s2 - s3));
+        return Math.log(Math.abs((s1 - s2) / (s2 - s3))) / Math.log(2);
     }
 }

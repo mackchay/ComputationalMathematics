@@ -1,20 +1,18 @@
-package ru.nsu.ccfit.haskov.solverTrimomial;
+package ru.nsu.ccfit.haskov.bissectionSolver;
 
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        SolverTrinomial solver = new SolverTrinomial(
+        BisectionSolver solver = new BisectionSolver(
                 (double) 0,
                 (double) 0,
                 (double) 0,
                 0.00001,
-                1000.0
+                1000.0,
+                0.0
         );
         List<Double> list = solver.start();
         System.out.println(list);
-//        for (Double i: list) {
-//            System.out.print("Fun results: " + solver.trinomialFunc(i) + " ");
-//        }
     }
 }

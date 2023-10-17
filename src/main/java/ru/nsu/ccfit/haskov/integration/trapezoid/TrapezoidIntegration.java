@@ -14,8 +14,8 @@ public class TrapezoidIntegration extends Integration {
         double result = 0;
 
         double height = LENGTH / segments;
-        for (int i = 0; i < segments - 1; i++) {
-            result += (func(BEGIN + i*height) + func(BEGIN + (i + 1) * height))/2 * height;
+        for (int i = 0; i < segments; i++) {
+            result += (func(BEGIN + i*height) + func(BEGIN + (i + 1) * height)) * height / 2;
         }
         return result;
     }

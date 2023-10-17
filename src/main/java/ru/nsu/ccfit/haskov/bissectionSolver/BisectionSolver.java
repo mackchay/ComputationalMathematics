@@ -1,78 +1,81 @@
-package ru.nsu.ccfit.haskov.solverTrimomial;
+package ru.nsu.ccfit.haskov.bissectionSolver;
 
-import ru.nsu.ccfit.haskov.solverTrimomial.Sign;
+import ru.nsu.ccfit.haskov.solvers.SearchRootIteration;
+import ru.nsu.ccfit.haskov.solvers.Solver;
 
 import java.util.*;
 
-public class SolverTrinomial {
-
-    private final Double a;
-    private final Double b;
-    private final Double c;
-    private final Double epsilon;
+public class BisectionSolver extends Solver {
     private Double delta;
 
-    public SolverTrinomial(Double a,
+    public BisectionSolver(Double a,
                            Double b,
                            Double c,
                            Double epsilon,
-                           Double delta
+                           Double delta,
+                           Double z
     ) {
         this.a = a;
         this.b = b;
         this.c = c;
+        this.z = z;
         this.epsilon = epsilon;
         this.delta = Math.abs(delta);
     }
+
+    @Override
     public List<Double> start() {
+        Double d = 2 * a * 2 * a - 4 * 3 * b;
+        List<Double> nulls = getDerivativeRoots(d);
+        Double alfa = nulls.get(0);
+        Double beta = nulls.get(1);
+        return start(alfa, beta);
+    }
+
+    @Override
+    public List<Double> start(Double alfa, Double beta) {
         List<Double> roots = new ArrayList<>();
         Double d = 2 * a * 2 * a - 4 * 3 * b;
         if (d <= 0) {
-            if (Math.abs(trinomialFunc((double) 0)) < epsilon) {
+            if (Math.abs(func((double) 0)) < epsilon) {
                 roots.add((double) 0);
                 roots.add((double) 0);
                 roots.add((double) 0);
             }
-            if (trinomialFunc((double) 0) > epsilon) {
+            if (func((double) 0) > epsilon) {
                 roots.add(infLineSearch((double)0, Sign.NEGATIVE));
                 roots.add(infLineSearch((double)0, Sign.NEGATIVE));
                 roots.add(infLineSearch((double)0, Sign.NEGATIVE));
             }
-            if (trinomialFunc((double) 0) < -epsilon) {
+            if (func((double) 0) < -epsilon) {
                 roots.add(infLineSearch((double)0, Sign.POSITIVE));
                 roots.add(infLineSearch((double)0, Sign.POSITIVE));
                 roots.add(infLineSearch((double)0, Sign.POSITIVE));
             }
         }
         else {
-            List<Double> nulls = getDerivativeRoots(d);
-            Double alfa = nulls.get(0);
-            Double beta = nulls.get(1);
-            Double res1 = getDerivative(alfa);
-            Double res2 = getDerivative(beta);
-
-            if (trinomialFunc(alfa) > epsilon && trinomialFunc(beta) > epsilon) {
+            if (func(alfa) > epsilon && func(beta) > epsilon) {
                 roots.add(infLineSearch(alfa, Sign.NEGATIVE));
             }
-            if (trinomialFunc(alfa) < -epsilon && trinomialFunc(beta) < -epsilon) {
+            if (func(alfa) < -epsilon && func(beta) < -epsilon) {
                 roots.add(infLineSearch(beta, Sign.POSITIVE));
             }
-            if (trinomialFunc(alfa) > epsilon && Math.abs(trinomialFunc(beta)) < epsilon) {
+            if (func(alfa) > epsilon && Math.abs(func(beta)) < epsilon) {
                 roots.add(beta);
                 roots.add(beta);
                 roots.add(infLineSearch(alfa, Sign.NEGATIVE));
             }
-            if (Math.abs(trinomialFunc(alfa)) < epsilon && trinomialFunc(beta) < -epsilon) {
+            if (Math.abs(func(alfa)) < epsilon && func(beta) < -epsilon) {
                 roots.add(alfa);
                 roots.add(alfa);
                 roots.add(infLineSearch(beta, Sign.POSITIVE));
             }
-            if (trinomialFunc(alfa) > epsilon && trinomialFunc(beta) < -epsilon) {
+            if (func(alfa) > epsilon && func(beta) < -epsilon) {
                 roots.add(infLineSearch(alfa, Sign.NEGATIVE));
                 roots.add(infLineSearch(beta, Sign.POSITIVE));
                 roots.add(lineSearch(alfa, beta));
             }
-            if (Math.abs(trinomialFunc(alfa)) < epsilon && Math.abs(trinomialFunc(beta)) < epsilon) {
+            if (Math.abs(func(alfa)) < epsilon && Math.abs(func(beta)) < epsilon) {
                 roots.add((alfa + beta) / 2);
             }
         }
@@ -80,29 +83,34 @@ public class SolverTrinomial {
         return roots;
     }
 
-    private Double getDerivative(Double x) {
-        return 3*x*x + 2*a*x + b;
-    }
-
-    public Double trinomialFunc(Double x) {
+    public Double func(Double x) {
         return x*x*x + a*x*x + b*x + c;
     }
 
     private Double lineSearch(Double a, Double b) {
         Double root = (a + b) / 2;
-        if (trinomialFunc(a) > trinomialFunc(b)) {
+        if (func(a) > func(b)) {
             Double temp = a;
             a = b;
             b = temp;
         }
-        while (Math.abs(trinomialFunc(root)) >= epsilon) {
-            if (trinomialFunc(root) > epsilon) {
+        while (Math.abs(func(root)) >= epsilon) {
+            if (func(root) > epsilon) {
                 b = root;
             }
-            if (trinomialFunc(root) < -epsilon) {
+            if (func(root) < -epsilon) {
                 a = root;
             }
+            double prevRoot = root;
             root = (a + b) / 2;
+            iterationList.add(new SearchRootIteration(
+                    (double)iterationList.size(),
+                    root,
+                    func(root),
+                    prevRoot,
+                    epsilon,
+                    z
+            ));
         }
         return root;
     }
@@ -110,13 +118,13 @@ public class SolverTrinomial {
         if (sign.equals(Sign.NEGATIVE)) {
             delta = -delta;
         }
-        if (trinomialFunc(x) > 0) {
-            while(trinomialFunc(x) > 0) {
+        if (func(x) > 0) {
+            while(func(x) > 0) {
                 x += delta;
             }
         }
         else {
-            while(trinomialFunc(x) < 0) {
+            while(func(x) < 0) {
                 x += delta;
             }
         }
