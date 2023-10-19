@@ -17,4 +17,9 @@ public abstract class Solver {
     public List<SearchRootIteration> getIterationList() {
         return iterationList;
     }
+
+    public Double func(Double x) {
+        return x*x*x + a*x*x + b*x + c;
+    }
+
 }

@@ -83,10 +83,6 @@ public class BisectionSolver extends Solver {
         return roots;
     }
 
-    public Double func(Double x) {
-        return x*x*x + a*x*x + b*x + c;
-    }
-
     private Double lineSearch(Double a, Double b) {
         Double root = (a + b) / 2;
         if (func(a) > func(b)) {

@@ -1,5 +1,7 @@
 package ru.nsu.ccfit.haskov.solvers;
 
+import java.text.DecimalFormat;
+
 public record SearchRootIteration(
         Double iter,
         Double x,
@@ -34,13 +36,15 @@ public record SearchRootIteration(
 
     @Override
     public String toString() {
-        return "n = " + x.toString()
-                + "f(x_n) = " + f
-                + "delta(x_n) = " + getDeltaX()
-                + "delta(x_n) < e: " + isDeltaXLessEpsilon()
-                + "delta(n) = " + getDeltaN(x)
-                + "delta(n) < e: " + isDeltaNLessEpsilon()
-                + "|f(x_n)| < e: " + isFunLessEpsilon()
-                + "delta(n-1) < delta^2(n): " + isPrevLessThanCurSquared();
+        DecimalFormat format = new DecimalFormat("#.##########");
+        return format.format(iter) +
+                " " + format.format(x)
+                + " " + format.format(f)
+                + " " + format.format(getDeltaX())
+                + " " + isDeltaXLessEpsilon()
+                + " " + format.format(getDeltaN(x))
+                + " " + isDeltaNLessEpsilon()
+                + " " + isFunLessEpsilon()
+                + " " + isPrevLessThanCurSquared();
     }
 }
