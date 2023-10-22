@@ -114,7 +114,7 @@ public class SolverStart {
                 -10.0,
                 0.00001,
                 Z3,
-                X3
+                2.5
         );
         Solver solver12 = new SecantSolver(
                 0.0,
@@ -125,6 +125,6 @@ public class SolverStart {
                 X3,
                 X33
         );
-        startSolver(solver12);
+        startSolver(solver1);
     }
 }

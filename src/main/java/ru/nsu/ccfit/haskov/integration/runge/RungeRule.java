@@ -6,7 +6,7 @@ import ru.nsu.ccfit.haskov.integration.simpson.SimpsonIntegration;
 import ru.nsu.ccfit.haskov.integration.trapezoid.TrapezoidIntegration;
 
 public class RungeRule {
-    private static final int SEGMENTS = 300;
+    private static final int SEGMENTS = 1800;
     public static void main(String[] args) {
         Integration trapezoid = new TrapezoidIntegration();
         Integration simpson = new SimpsonIntegration();

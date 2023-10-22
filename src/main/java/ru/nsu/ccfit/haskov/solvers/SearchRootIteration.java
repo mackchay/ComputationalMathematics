@@ -31,7 +31,7 @@ public record SearchRootIteration(
     }
 
     public boolean isPrevLessThanCurSquared() {
-        return getDeltaN(prevX) < Math.pow(getDeltaN(x), 2.0);
+        return getDeltaN(x) < Math.pow(getDeltaN(prevX), 2.0);
     }
 
     @Override
