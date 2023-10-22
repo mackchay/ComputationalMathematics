@@ -52,7 +52,7 @@ public class SimpleNewtonSolver extends Solver{
                 doubleList.add(x);
                 return doubleList;
             }
-        };
+        }
         return doubleList;
     }
 
